@@ -1,0 +1,12 @@
+[Unit]
+Description=Speech Wand
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/node /home/pi/speech/gcloud/index.js
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
+Alias=speech.service
+
