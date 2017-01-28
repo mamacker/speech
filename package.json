@@ -1,0 +1,16 @@
+{
+  "name": "gcloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/speech": "^0.5.1",
+    "google-cloud": "^0.45.2",
+    "rpi-gpio": "^0.7.0"
+  }
+}
