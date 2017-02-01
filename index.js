@@ -2,6 +2,7 @@ var speech = require('@google-cloud/speech')();
 var fs = require('fs');
 var gpio = require("rpi-gpio");
 var http = require('http');
+var https = require('https');
 gpio.setMode(gpio.MODE_BCM);
 
 const Hs100Api = require('./hs100-api'); 
@@ -44,6 +45,7 @@ function utterToMe() {
 
   console.log("Kicked off process.");
   var recognized = false;
+  var timer;
   arecord.stdout.pipe(speech.createRecognizeStream(request))
       .on('error', console.error)
       .on('data', function(data) {
@@ -53,7 +55,7 @@ function utterToMe() {
             recognized = true;
             tvlightplug.setPowerState(true); 
 
-            if ((data.results + "").toLowerCase().match(/omni/)) {
+            if ((data.results + "").toLowerCase().match(/(Amina|omni|Amino)/)) {
               couchlightplug.setPowerState(true); 
               mattlightplug.setPowerState(true); 
             }
@@ -62,10 +64,22 @@ function utterToMe() {
           if ((data.results + "").match(/(docs?|knox|nox|nocks|knock|nock)/)) {
             recognized = true;
             tvlightplug.setPowerState(false); 
-            if ((data.results + "").toLowerCase().match(/omni/)) {
+            if ((data.results + "").toLowerCase().match(/(Amina|omni|Amino)/)) {
               couchlightplug.setPowerState(false); 
               mattlightplug.setPowerState(false); 
             }
+          }
+          
+          if ((data.results + "").toLowerCase().match(/(alohomora|hello hello)/)) {
+            recognized = true;
+            https.get('https://theamackers.com/lock/unlock?which=1', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/(colloportus|call la porte|color portraits|call *oporto|call *laporta|call porter|call court|teleporter|call *porches|call *a purchase)/)) {
+            recognized = true;
+            https.get('https://theamackers.com/lock/lock?which=1', (res) => {
+            });
           }
 
           if ((data.results + "").toLowerCase().match(/expelliarmus/)) {
@@ -75,14 +89,18 @@ function utterToMe() {
           }
 
           if (recognized) {
-            recognized = false;
-            arecord.kill();
-            busy = false;
+            setTimeout(() => {
+              console.log("Done, recognition found.");
+              recognized = false;
+              clearTimeout(timer);
+              arecord.kill();
+              busy = false;
+            }, 200);
           }
         }
       });
 
-  setTimeout(() => {
+  timer = setTimeout(() => {
     console.log("Done with current recognition.");
     arecord.kill();
     busy = false;

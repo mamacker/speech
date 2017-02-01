@@ -3,7 +3,7 @@ Description=Speech Wand
 After=network-online.target
 
 [Service]
-ExecStart=/usr/bin/node /home/pi/speech/gcloud/index.js
+ExecStart=/usr/bin/forever /home/pi/speech/gcloud/index.js
 StandardOutput=syslog
 
 [Install]
