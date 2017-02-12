@@ -88,6 +88,48 @@ function utterToMe() {
             });
           }
 
+          if ((data.results + "").toLowerCase().match(/one/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=1', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/two/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=2', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/three/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=3', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/four/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=4', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/five/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=5', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/six/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=6', (res) => {
+            });
+          }
+
+          if ((data.results + "").toLowerCase().match(/reset announcer/)) {
+            recognized = true;
+            http.get('http://annunciator.local/select?which=reset', (res) => {
+            });
+          }
+
           if (recognized) {
             setTimeout(() => {
               console.log("Done, recognition found.");
